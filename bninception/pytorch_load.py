@@ -6,7 +6,7 @@ import yaml
 
 
 class BNInception(nn.Module):
-    def __init__(self, model_path='model_zoo/bninception/bn_inception.yaml', num_classes=101,
+    def __init__(self, model_path='tf_model_zoo/bninception/bn_inception.yaml', num_classes=101,
                        weight_url='https://yjxiong.blob.core.windows.net/models/bn_inception-9f5701afb96c8044.pth'):
         super(BNInception, self).__init__()
 
@@ -32,8 +32,15 @@ class BNInception(nn.Module):
                 channel = sum([self._channel_dict[x] for x in in_var])
                 self._channel_dict[out_var[0]] = channel
 
-        self.load_state_dict(torch.utils.model_zoo.load_url(weight_url))
-
+        # Model created in torch 0.1, need to change shape of some weights to work w/ torch 1.0
+        beta_model = torch.utils.model_zoo.load_url(weight_url)
+        for tensor in beta_model:
+            if len(beta_model[tensor].size()) == 2:
+                beta_model[tensor].squeeze_()
+                
+        self.load_state_dict(beta_model)
+        del beta_model
+        
     def forward(self, input):
         data_dict = dict()
         data_dict[self._op_list[0][-1]] = input
