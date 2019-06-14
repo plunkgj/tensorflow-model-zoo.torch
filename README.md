@@ -1,3 +1,11 @@
+# Changes in this fork:
+
+This fork is to support my 'TSN-Pytorch' fork, which updates code to be compatible with PyTorch 1.0, and other small changes to make code compatible with the SimulatedHome dataset. The original Readme is reproduced below.
+
+
+-----------------------------
+
+
 # Tensorflow Model Zoo for Torch7 and PyTorch
 
 This is a porting of tensorflow pretrained models made by [Remi Cadene](http://remicadene.com) and [Micael Carvalho](http://micaelcarvalho.com). Special thanks to Moustapha Cissé. All models have been tested on Imagenet.
